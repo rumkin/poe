@@ -18,11 +18,11 @@ to awitch connection to use HTTP:
 ```cpp
 Poe::Server * server = new Poe::Server();
 
-server->OnConnect([](Poe::Server * server, Poe::Conn * conn) {
+server->OnConnect([](Poe::Server * server, Poe::Connection * conn) {
     conn->SetCodec(new Poe::Codec);
 });
 
-server->OnDisconnect([](Poe::Server * server, Poe::Conn * conn) {
+server->OnDisconnect([](Poe::Server * server, Poe::Connection * conn) {
     delete conn->GetCodec();
 });
 
