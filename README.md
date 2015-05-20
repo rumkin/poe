@@ -67,3 +67,19 @@ While HttpCodec is not implemented yet it only support default fixed length
 data protocol encoding. In the future it became streaming and will support 
 nested codecs to support multiple protocols incapsulation. For example
 pack HTML or video stream into CBOR which wrapped into fixed length encoding.
+
+## Building
+
+Fetch and build deps:
+
+```bash
+make deps # Fetch dependencies
+make build
+```
+
+Or build example:
+
+```bash
+make deps
+make example
+```
