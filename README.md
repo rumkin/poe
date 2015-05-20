@@ -33,7 +33,7 @@ while(server->IsRunning()) {
         Poe::Request req = server->GetRequest();
         
         if (req->conn->counter == 1) { // Switch after the first request
-            Poe::pack * pack = reinterpret_cast<Poe::Pack*>(req->data);
+            Poe::Pack * pack = reinterpret_cast<Poe::Pack*>(req->data);
             
             std::string str(pack->data, pack->size);
             
@@ -42,17 +42,18 @@ while(server->IsRunning()) {
                 break;
             }
             
+            // Switch codec
             delete req->conn->GetCodec();
             req->conn->SetCodec(new HttpCodec());
         } else {
             HttpData * http = reinterpret_cast<HttpData*>(req->data);
             
             // Do something with HttpPackage
-            http->On("data", [](char * data, size_t len) {
+            http->OnData([](char * data, size_t len) {
                 // Do something with http data
             });
             
-            http->On("end", (HttpData * data) {
+            http->OnEnd([](HttpData * data) {
                 delete data;
             });
         }
