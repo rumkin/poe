@@ -3,7 +3,7 @@
 #include <cstring>
 #include <string>
 #include <functional>
-#include "poe.h"
+#include "../poe.h"
 
 void push_uint32(char * buf, uint32_t i) {
     memcpy(buf, &i, sizeof(uint32_t));
