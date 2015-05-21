@@ -1,0 +1,13 @@
+## 0.2
+
+The next version goal is to clearify API and implement streaming:
+- [ ] Refactor private/public variables and methods.
+- [ ] Separate classes by files.
+- [ ] Create stream interface.
+- [ ] Implement nested codecs.
+
+
+## 0.3
+
+- [ ] Create client.
+- [ ] Optimize event API.
