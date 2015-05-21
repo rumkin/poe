@@ -77,7 +77,7 @@ namespace Poe {
    }
    
    bool Server::HasConn(int i) {
-      return pool->find(i) == pool->end();
+      return pool->find(i) != pool->end();
    }
    
    // Find connection
@@ -116,7 +116,7 @@ namespace Poe {
    }
    
    void Server::CloseConn(Connection * conn) {
-      if (pool->find(conn->id) == pool->end()) return;
+      if (! HasConn(conn->id)) return;
       
       if (on_disconnect != 0) {
          on_disconnect(this, conn);
