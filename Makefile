@@ -6,7 +6,7 @@ run:
 clean:
 	rm -rf build/*
 
-memcheck: example
+memcheck:
 	valgrind --tool=memcheck --leak-check=full build/poe
 
 example: clean build
@@ -20,9 +20,12 @@ transport.o:
 
 # Manage dependencies	
 deps: deps_dir deps-libuv
-	
+
+clean-deps:
+	rm -rf deps
+
 deps_dir:
-	rm -rf deps && mkdir deps
+	[ -d "deps" ] || mkdir deps
 
 deps-libuv: deps-libuv-repo deps-libuv-gyp
 
@@ -35,6 +38,9 @@ deps-libuv-gyp:
 # Build
 
 build: build-deps build-objects
+
+build-lib: clean build-deps build-objects
+	ar rvs build/poe.a build/*.o
 
 build-deps: build-libuv
 	
