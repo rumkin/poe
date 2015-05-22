@@ -11,7 +11,6 @@ namespace Poe {
     }
     
     void on_write(uv_write_t* req, int status) {
-        // fprintf(stdout, "on_write\n");
         if (status < 0) {
             fprintf(stderr, "Write error %s\n", uv_strerror(status));
             return;
@@ -36,8 +35,6 @@ namespace Poe {
 
     // Callbacks
     void on_read(uv_stream_t* handle, ssize_t nread, const uv_buf_t* buf) {
-        // fprintf(stdout, "on_read\n");
-    
         TransportConn * conn = reinterpret_cast<TransportConn *>(handle->data);
         
         if (nread == -4095) {
@@ -114,7 +111,6 @@ namespace Poe {
         
         loop = uv_default_loop();
         tcp = (uv_tcp_t*) malloc(sizeof(uv_tcp_t));
-        // uv_loop_init(loop);
         
         uv_tcp_init(loop, tcp);
         struct sockaddr_in addr;
@@ -157,19 +153,16 @@ namespace Poe {
         }
         
         int e;
-        // do {
-            e = uv_run(loop, UV_RUN_ONCE);
-        // } while (e > 0);
+        e = uv_run(loop, UV_RUN_ONCE);
         
         uv_stop(loop);
         
         e = uv_loop_close(loop);
-        if (e != 0) {
+        if (e != 0 && e != -16) {
             fprintf(stderr, "Error #%i: %s\n", -e, uv_strerror(e));
         }
         
         free(tcp);
-        // free(loop);
         is_started = false;
     }
     
@@ -214,10 +207,8 @@ namespace Poe {
         
         uv_write_t *res = (uv_write_t *) malloc(sizeof(uv_write_t));
         uv_write(res, (uv_stream_t *) conn->stream, response, 1, [](uv_write_t * res, int status){
-            if (status == 0) {
-                printf("Write OK\n");
-            } else {
-                fprintf(stderr, "Write FAIL\n");
+            if (status != 0) {
+                fprintf(stderr, "Write error %s\n", uv_strerror(status));
             }
             
             free(res);
