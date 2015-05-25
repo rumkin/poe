@@ -155,14 +155,16 @@ namespace Poe {
         int e;
         e = uv_run(loop, UV_RUN_ONCE);
         
+        uv_close((uv_handle_t*) tcp, on_close_empty);
+        e = uv_run(loop, UV_RUN_ONCE);
+        
         uv_stop(loop);
         
         e = uv_loop_close(loop);
-        if (e != 0 && e != -16) {
+        if (e != 0) {
             fprintf(stderr, "Error #%i: %s\n", -e, uv_strerror(e));
         }
         
-        free(tcp);
         is_started = false;
     }
     
